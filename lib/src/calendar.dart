@@ -1,122 +1,166 @@
 import 'package:flutter/material.dart';
+import 'constants.dart';
+import 'monthView.dart';
+import 'eventsView.dart';
 
 class Calendar extends StatefulWidget {
+  const Calendar({
+    Key key,
+    this.events,
+    this.onEventTapped,
+    this.titleField = 'name',
+    this.detailField = 'location',
+    this.dateField = 'date',
+    this.idField = 'id',
+    this.separatorTitle = 'Events',
+    this.theme,
+  }) : super(key: key);
+
+  final List<Map<String, String>> events;
+  final Function onEventTapped;
+  final String titleField;
+  final String detailField;
+  final String dateField;
+  final String idField;
+  final String separatorTitle;
+  final ThemeData theme;
+
   @override
   _CalendarState createState() => _CalendarState();
 }
 
 class _CalendarState extends State<Calendar> {
-  Widget header(String month) {
-    return Padding(
+  int _currentMonth;
+  int _currentYear;
+  int _currentDay;
+  Map<int, Map<int, Map<int, List>>> _events;
+  ThemeData _theme;
+
+  @override
+  initState() {
+    super.initState();
+    setupEvents();
+    _currentMonth = DateTime.now().month;
+    _currentYear = DateTime.now().year;
+    _currentDay = 0;
+    _theme = widget.theme ?? ThemeData.dark();
+  }
+
+  setupEvents() {
+    // sort events based on date field
+    final sortedEvents = List.from(widget.events);
+    sortedEvents.sort((a, b) => a[widget.dateField].compareTo(b[widget.dateField]));
+
+    Map<int, Map<int, Map<int, List>>> structuredEvents = {};
+    for(var event in sortedEvents) {
+      var date = DateTime.parse(event[widget.dateField]);
+      // guard null date
+      if (date == null) {
+        continue;
+      }
+
+      Map year = structuredEvents[date.year];
+      // guard null year
+      if (year == null) {
+        structuredEvents[date.year] = {
+          date.month: {
+            date.day: [event]
+          }
+        };
+        continue;
+      }
+
+      Map month = year[date.month];
+      // guard null month
+      if (month == null) {
+        structuredEvents[date.year][date.month] = {
+          date.day: [event]
+        };
+        continue;
+      }
+
+      List day = month[date.day];
+      // guard null day
+      if (day == null) {
+        structuredEvents[date.year][date.month][date.day] = [event];
+        continue;
+      }
+
+      day.add(event);
+      structuredEvents[date.year][date.month][date.day] = day;
+    };
+    setState(() {
+      _events = structuredEvents;
+    });
+  }
+  
+  String getMonth(int month) => ( MonthNames[month - 1] );
+
+  void nextMonth() {
+    var nextMonth = _currentMonth + 1;
+    if (nextMonth > DateTime.monthsPerYear) {
+      nextMonth = nextMonth % DateTime.monthsPerYear;
+      setState(() => _currentYear += 1);
+    }
+    setState(() {
+      _currentMonth = nextMonth;
+      _currentDay = 0;
+    });
+  }
+
+  void prevMonth() {
+    var prevMonth = _currentMonth - 1;
+    if (prevMonth <= 0) {
+      prevMonth = prevMonth + DateTime.monthsPerYear;
+      setState(() => _currentYear -= 1);
+    }
+    setState(() {
+      _currentMonth = prevMonth;
+      _currentDay = 0;
+    });
+  }
+
+  Map<int, List> monthlyEvents() {
+    if (_events != null && _events[_currentYear] != null) {
+      final yearEvents = _events[_currentYear];
+      if (yearEvents[_currentMonth] != null) {
+        return yearEvents[_currentMonth];
+      }
+    }
+    return {};
+  }
+
+  Widget header() {
+    return Container(
+      color: _theme.canvasColor,
       padding: const EdgeInsets.only(top: 10.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           MaterialButton(
-            child: Icon(Icons.chevron_left, color: Colors.blueGrey,),
-            onPressed: () => {},
+            child: Icon(Icons.chevron_left, color: _theme.accentColor,),
+            onPressed: () => prevMonth(),
           ),
           Expanded(child: Container(),),
-          Text('August', style: TextStyle(fontSize: 28.0, color: Colors.blueGrey)),
-          Expanded(child: Container()),
-          MaterialButton(
-            child: Icon(Icons.chevron_right, color: Colors.blueGrey,),
-            onPressed: () => {},
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget dayMarker(String day) {
-    return Expanded(
-      child: Container(
-        padding: EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          color: Colors.blueGrey,
-          shape: BoxShape.circle,
-        ),
-        child: Center(child: Text(day, style: TextStyle(color: Colors.white),)),
-      ),
-    );
-  }
-
-  Widget weekRow(int startDay) {
-    List<Widget> days = [];
-    for (var i = startDay; i < startDay + 7; i++) {
-      days.add(dayMarker(i.toString()));
-    }
-
-    return Row(
-      children: days,
-    );
-  }
-
-  Widget monthLayout() {
-    const spacing = 16.0;
-    return Column(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: spacing),
-          child: weekRow(1),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: spacing),
-          child: weekRow(8),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: spacing),
-          child: weekRow(15),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: spacing),
-          child: weekRow(22),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: spacing),
-          child: weekRow(29),
-        ),
-      ],
-    );
-  }
-
-  Widget eventRow() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Row(
-        children: <Widget>[
           Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('Event Name'),
-              Text('Location'),
-              Text('Time of Event')
+              Text(
+                getMonth(_currentMonth),
+                style: _theme.textTheme.display1,
+              ),
+              Text(
+                _currentYear.toString(),
+                style: _theme.textTheme.subhead.copyWith(
+                  fontWeight: FontWeight.bold
+                ),
+              )
             ],
           ),
-          Expanded(
-            child: Container(),
-          ),
-          Container(
-            margin: EdgeInsets.all(8.0),
-            padding: EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.blueAccent,
-            ),
-            child: Column(
-              children: <Widget>[
-                Text('AUGUST', style: TextStyle(color: Colors.white)),
-                Text(
-                  '4',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 28.0,
-                  )
-                ),
-              ],
-            )
-          ),
+          Expanded(child: Container()),
+          MaterialButton(
+            child: Icon(Icons.chevron_right, color: _theme.accentColor,),
+            onPressed: () => nextMonth(),
+          )
         ],
       ),
     );
@@ -128,19 +172,27 @@ class _CalendarState extends State<Calendar> {
         Expanded(
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 16.0),
-            color: Colors.blueGrey,
+            color: _theme.backgroundColor,
             child: Text(
-              'Upcoming Events',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 21.0,
-              ),
+              widget.separatorTitle,
+              style: _theme.accentTextTheme.display1,
               textAlign: TextAlign.center,
             ),
           ),
         )
       ],
     );
+  }
+
+  daySelectHandler(int day) {
+    if (_currentDay == day) {
+      day = 0;
+    }
+    setState(() => _currentDay = day);
+  }
+
+  onEventTapped(String id) {
+    widget.onEventTapped(id);
   }
 
   @override
@@ -150,20 +202,26 @@ class _CalendarState extends State<Calendar> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            header('August'),
-            Divider(height: 0.0, color: Colors.blueGrey,),
-            monthLayout(),
+            header(),
+            Divider(height: 0.0, color: _theme.dividerColor,),
+            MonthView(
+              _currentYear,
+              _currentMonth,
+              monthlyEvents(),
+              onTapHandler: daySelectHandler,
+              theme: _theme,
+            ),
             separator(),
-            Expanded(
-              child: ListView(
-                children: <Widget>[
-                  eventRow(),
-                  Divider(color: Colors.grey, height: 0.0,),
-                  eventRow(),
-                  Divider(color: Colors.grey, height: 0.0,),
-                  eventRow(),
-                ],
-              ),
+            EventsView(
+              events: monthlyEvents(),
+              month: _currentMonth,
+              currentDay: _currentDay,
+              onEventTapped: onEventTapped,
+              titleField: widget.titleField,
+              detailField: widget.detailField,
+              dateField: widget.dateField,
+              idField: widget.idField,
+              theme: _theme,
             ),
           ],
         ),
