@@ -4,7 +4,7 @@ import 'monthView.dart';
 import 'eventsView.dart';
 
 class Calendar extends StatefulWidget {
-  const Calendar({
+  Calendar({
     Key key,
     this.events,
     this.onEventTapped,
@@ -16,13 +16,32 @@ class Calendar extends StatefulWidget {
     this.theme,
   }) : super(key: key);
 
+  ///List<Map<String, String>> of events to display in the calendar.
+  ///Should have a title, detail, date, and unique id field.
+  ///Date field should be anything that DateTime.parse() can handle.
   final List<Map<String, String>> events;
+
+  ///Handler to use in your app should a user tap on an event in the event list.
+  ///Passes the id of the event to enable looking up the tapped event.
   final Function onEventTapped;
+
+  ///Field on each event to use as the title for display in the event list.
   final String titleField;
+
+  ///Field on each event to use as the detail information (line 2) for display in the event list.
   final String detailField;
+
+  ///Field to use as the date field for organizing events by month.
+  ///Also used to display time information in the event list.
   final String dateField;
+
+  ///Field used when an event is tapped, to provide a unique id to the onEventTapped handler.
   final String idField;
+
+  ///Title used in the separator between the month and list views.
   final String separatorTitle;
+
+  ///Theme used to style the calendar as needed.
   final ThemeData theme;
 
   @override
@@ -133,7 +152,7 @@ class _CalendarState extends State<Calendar> {
   Widget header() {
     return Container(
       color: _theme.canvasColor,
-      padding: const EdgeInsets.only(top: 10.0),
+      padding: const EdgeInsets.only(top: 4.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -171,7 +190,7 @@ class _CalendarState extends State<Calendar> {
       children: <Widget>[
         Expanded(
           child: Container(
-            padding: EdgeInsets.symmetric(vertical: 16.0),
+            padding: EdgeInsets.symmetric(vertical: 4.0),
             color: _theme.backgroundColor,
             child: Text(
               widget.separatorTitle,

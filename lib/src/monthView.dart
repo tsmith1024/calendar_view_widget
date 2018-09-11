@@ -64,7 +64,7 @@ class MonthView extends StatelessWidget {
   Widget weekdayItem(String text) => (
     Expanded(
       child: Container(
-        padding: EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(2.0),
         child: Center(
           child: Text(
             text,
@@ -87,7 +87,7 @@ class MonthView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const spacing = 16.0;
+    const spacing = 8.0;
 
     final firstDayOfMonth = DateTime(year, month, 1).weekday;
     final monthOffset = 1 - (firstDayOfMonth % DateTime.daysPerWeek);
