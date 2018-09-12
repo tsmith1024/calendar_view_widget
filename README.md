@@ -1,9 +1,11 @@
 # calendar_view_widget
 
+<img align="right" src="assets/example.png" />
 ## About
 A [Flutter](https://flutter.io) widget built to display a monthly calendar with a list of daily events shown below. The widget is intended to be used to fill a full scaffold body.
 
-![Example](./assets/example.png)
+
+<!-- ![Example](./assets/example.png) -->
 
 ## Status: Under Development
 **This package is under development and likely to change. The hope is not to break things, but new features may require updates to your code.**
