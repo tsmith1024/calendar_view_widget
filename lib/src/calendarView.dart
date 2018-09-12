@@ -3,8 +3,8 @@ import 'constants.dart';
 import 'monthView.dart';
 import 'eventsView.dart';
 
-class Calendar extends StatefulWidget {
-  Calendar({
+class CalendarView extends StatefulWidget {
+  CalendarView({
     Key key,
     this.events,
     this.onEventTapped,
@@ -48,7 +48,7 @@ class Calendar extends StatefulWidget {
   _CalendarState createState() => _CalendarState();
 }
 
-class _CalendarState extends State<Calendar> {
+class _CalendarState extends State<CalendarView> {
   int _currentMonth;
   int _currentYear;
   int _currentDay;
@@ -62,7 +62,7 @@ class _CalendarState extends State<Calendar> {
     _currentMonth = DateTime.now().month;
     _currentYear = DateTime.now().year;
     _currentDay = 0;
-    _theme = widget.theme ?? ThemeData.dark();
+    _theme = widget.theme ?? ThemeData.light();
   }
 
   setupEvents() {
