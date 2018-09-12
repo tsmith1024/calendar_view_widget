@@ -123,3 +123,4 @@ fabric.properties
 android/local.properties
 *.iml
 .vscode/launch.json
+android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java
