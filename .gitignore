@@ -120,3 +120,6 @@ fabric.properties
 
 
 # End of https://www.gitignore.io/api/dart,flutter,intellij
+android/local.properties
+*.iml
+.vscode/launch.json
