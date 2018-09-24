@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:calendar_view_widget/calendar_view_widget.dart';
 
@@ -46,6 +48,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  StreamController<List<Map<String, String>>> eventsController = new StreamController();
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -55,6 +59,13 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
       _counter++;
     });
+  }
+
+  @override
+  void dispose() {
+    eventsController.close();
+    // TODO: implement dispose
+    super.dispose();
   }
 
   @override
@@ -145,6 +156,8 @@ class _MyHomePageState extends State<MyHomePage> {
       print(id);
     }
 
+    eventsController.add(eventList);
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -178,7 +191,6 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             // default String parameter values used below as example
             new CalendarView(
-              events: eventList,
               onEventTapped: onEventTapped,
               titleField: 'name',
               detailField: 'location',
@@ -186,6 +198,7 @@ class _MyHomePageState extends State<MyHomePage> {
               idField: 'id',
               separatorTitle: 'Events',
               theme: theme,
+              eventStream: eventsController.stream,
             ),
           ],
         ),
