@@ -6,10 +6,11 @@
 A [Flutter](https://flutter.io) widget built to display a monthly calendar with a list of daily events shown below. The widget is intended to be used to fill a full scaffold body.
 
 
-<!-- ![Example](./assets/example.png) -->
-
 ## Status: Under Development
-**This package is under development and likely to change. The hope is not to break things, but new features may require updates to your code.**
+**This package is under development and likely to change. The hope is not to break things, but new features may require updates to your code. Notes will be added below as breaking changes come along.**
+
+### v0.0.3+ Breaking Change 
+Prior to 0.0.3, the package used a list of events passed in the constructor as the calendar data for display. The widget has moved to a stream based list of events. This will allow for dynamic updates of events that is hopefully flexible enough to fit with your use case. The example shows a simple stream in use.
 
 ## Usage Details
 
@@ -17,7 +18,7 @@ A [Flutter](https://flutter.io) widget built to display a monthly calendar with 
 
 ```
 new CalendarView(
-  events: eventList, // List<Map<String, String>>
+  eventStream: eventList, // Stream<List<Map<String, String>>>
   onEventTapped: onEventTappedHandler, // function(eventID)
   titleField: 'name', // String
   detailField: 'location', // String
@@ -28,7 +29,7 @@ new CalendarView(
 ),
 ```
 
-The calendar expects a list of Events, as described below, in addition to some other configuration values. This intent is to be adaptable to your app data.
+The calendar expects a stream of Events, as described below, in addition to some other configuration values. A list of events added to the stream will replace the existing list of events in the calendar.
 
 The example above includes the default values for the String parameters (`titleField`, `detailField`, `dateField`, `idField`, and `separatorTitle`) as well as the default theme, `ThemeData.light()`. All of these may be overridden to suit your data structure and styling needs.
 
