@@ -13,7 +13,6 @@ class CalendarView extends StatefulWidget {
     this.titleField = 'name',
     this.detailField = 'location',
     this.dateField = 'date',
-    this.idField = 'id',
     this.separatorTitle = 'Events',
     this.theme,
     this.eventStream,
@@ -26,7 +25,7 @@ class CalendarView extends StatefulWidget {
   final Stream<List<Map<String, String>>> eventStream;
 
   ///Handler to use in your app should a user tap on an event in the event list.
-  ///Passes the id of the event to enable looking up the tapped event.
+  ///Passes the event (Map<String, String>) as a parameter.
   final Function onEventTapped;
 
   ///Field on each event to use as the title for display in the event list.
@@ -38,9 +37,6 @@ class CalendarView extends StatefulWidget {
   ///Field to use as the date field for organizing events by month.
   ///Also used to display time information in the event list.
   final String dateField;
-
-  ///Field used when an event is tapped, to provide a unique id to the onEventTapped handler.
-  final String idField;
 
   ///Title used in the separator between the month and list views.
   final String separatorTitle;
@@ -230,8 +226,8 @@ class _CalendarState extends State<CalendarView> {
     setState(() => _currentDay = day);
   }
 
-  _onEventTapped(String id) {
-    widget.onEventTapped(id);
+  _onEventTapped(Map<String, String> event) {
+    widget.onEventTapped(event);
   }
 
   @override
@@ -262,7 +258,6 @@ class _CalendarState extends State<CalendarView> {
               titleField: widget.titleField,
               detailField: widget.detailField,
               dateField: widget.dateField,
-              idField: widget.idField,
               theme: _theme,
             ),
           ],
