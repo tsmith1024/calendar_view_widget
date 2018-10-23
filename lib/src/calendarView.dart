@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+
 import 'constants.dart';
-import 'monthView.dart';
 import 'eventsView.dart';
+import 'monthView.dart';
 
 class CalendarView extends StatefulWidget {
   CalendarView({
@@ -72,12 +73,17 @@ class _CalendarState extends State<CalendarView> {
   /// Used by initState to initialize widget
   /// and to update widget when needed
   void _setEvents(List<Map<String, String>> events) {
+    List<Map<String, String>> filteredEvents = List.from(events);
+    filteredEvents
+        .removeWhere((Map<String, String> event) => !_validEvent(event));
+
     // sort events based on date field
-    final sortedEvents = List.from(events);
-    sortedEvents.sort((a, b) => a[widget.dateField].compareTo(b[widget.dateField]));
+    final sortedEvents = List.from(filteredEvents);
+    sortedEvents
+        .sort((a, b) => a[widget.dateField].compareTo(b[widget.dateField]));
 
     Map<int, Map<int, Map<int, List>>> structuredEvents = {};
-    for(var event in sortedEvents) {
+    for (var event in sortedEvents) {
       var date = DateTime.parse(event[widget.dateField]);
       // guard null date
       if (date == null) {
@@ -113,13 +119,14 @@ class _CalendarState extends State<CalendarView> {
 
       day.add(event);
       structuredEvents[date.year][date.month][date.day] = day;
-    };
-    setState(() {
-      _events = structuredEvents;
-    });
+    }
+    setState(() => _events = structuredEvents);
   }
 
-  String _getMonth(int month) => ( MonthNames[month - 1] );
+  bool _validEvent(Map<String, String> event) =>
+      event[widget.dateField] != null && event[widget.dateField].isNotEmpty;
+
+  String _getMonth(int month) => (MonthNames[month - 1]);
 
   void _nextMonth() {
     var nextMonth = _currentMonth + 1;
@@ -163,10 +170,15 @@ class _CalendarState extends State<CalendarView> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           MaterialButton(
-            child: Icon(Icons.chevron_left, color: _theme.accentColor,),
+            child: Icon(
+              Icons.chevron_left,
+              color: _theme.accentColor,
+            ),
             onPressed: () => _prevMonth(),
           ),
-          Expanded(child: Container(),),
+          Expanded(
+            child: Container(),
+          ),
           Column(
             children: <Widget>[
               Text(
@@ -175,15 +187,17 @@ class _CalendarState extends State<CalendarView> {
               ),
               Text(
                 _currentYear.toString(),
-                style: _theme.textTheme.subhead.copyWith(
-                  fontWeight: FontWeight.bold
-                ),
+                style: _theme.textTheme.subhead
+                    .copyWith(fontWeight: FontWeight.bold),
               )
             ],
           ),
           Expanded(child: Container()),
           MaterialButton(
-            child: Icon(Icons.chevron_right, color: _theme.accentColor,),
+            child: Icon(
+              Icons.chevron_right,
+              color: _theme.accentColor,
+            ),
             onPressed: () => _nextMonth(),
           )
         ],
@@ -228,7 +242,10 @@ class _CalendarState extends State<CalendarView> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             _header(),
-            Divider(height: 0.0, color: _theme.dividerColor,),
+            Divider(
+              height: 0.0,
+              color: _theme.dividerColor,
+            ),
             MonthView(
               _currentYear,
               _currentMonth,
