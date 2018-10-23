@@ -11,7 +11,6 @@ class EventsView extends StatelessWidget {
       this.titleField,
       this.detailField,
       this.dateField,
-      this.idField,
       this.theme})
       : super(key: key);
 
@@ -22,7 +21,6 @@ class EventsView extends StatelessWidget {
   final String titleField;
   final String detailField;
   final String dateField;
-  final String idField;
   final ThemeData theme;
 
   Widget dateBadge(day) => Container(
@@ -49,7 +47,7 @@ class EventsView extends StatelessWidget {
   }
 
   Widget eventRow(int day, Map<String, String> event) => GestureDetector(
-        onTap: () => onEventTapped(event[idField]),
+        onTap: () => onEventTapped(event),
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(

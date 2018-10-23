@@ -179,8 +179,8 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
     );
 
-    void onEventTapped(String id) {
-      print(id);
+    void onEventTapped(Map<String, String> event) {
+      print(event);
     }
 
     eventsController.add(eventList);
@@ -222,7 +222,6 @@ class _MyHomePageState extends State<MyHomePage> {
               titleField: 'name',
               detailField: 'location',
               dateField: 'date',
-              idField: 'id',
               separatorTitle: 'Events',
               theme: theme,
               eventStream: eventsController.stream,
