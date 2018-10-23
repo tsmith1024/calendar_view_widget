@@ -35,13 +35,13 @@ The calendar expects a stream of Events, as described below, in addition to some
 
 The example above includes the default values for the String parameters (`titleField`, `detailField`, `dateField`, and `separatorTitle`) as well as the default theme, `ThemeData.light()`. All of these may be overridden to suit your data structure and styling needs.
 
-The `onEventTapped` handler should be a function that recieves an id value for an event. It can then be used to look up that event in your data and respond as needed in the rest of the app.
+The `onEventTapped` handler should be a function that recieves an event Map. It can then be used to respond as needed in the rest of the app.
 
 Example:
 
 ```
-void onEventTapped(String id) {
-  print(id);
+void onEventTapped(Map<String, String> event) {
+  print(event);
 }
 ```
 
