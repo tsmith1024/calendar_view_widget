@@ -54,22 +54,25 @@ class EventsView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
             children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    event[titleField] ?? "",
-                    style: theme.textTheme.headline,
-                  ),
-                  Text(
-                    event[detailField] ?? "",
-                    style: theme.textTheme.subhead,
-                  ),
-                  Text(
-                    timeString(event),
-                    style: theme.textTheme.subhead,
-                  )
-                ],
+              Expanded(
+                flex: 8,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      event[titleField] ?? "",
+                      style: theme.textTheme.headline,
+                    ),
+                    Text(
+                      event[detailField] ?? "",
+                      style: theme.textTheme.subhead,
+                    ),
+                    Text(
+                      timeString(event),
+                      style: theme.textTheme.subhead,
+                    )
+                  ],
+                ),
               ),
               Expanded(
                 child: Container(),

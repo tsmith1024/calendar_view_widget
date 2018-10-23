@@ -120,6 +120,20 @@ class _MyHomePageState extends State<MyHomePage> {
         'date': '2018-08-22 05:49:00',
         'id': '6',
       },
+      {
+        'name':
+            'Handle really long names in the event list so it does not break',
+        'location': '1200 Park Avenue',
+        'date': '2018-10-24 05:49:00',
+        'id': '7',
+      },
+      {
+        'name': 'Event 8',
+        'location':
+            'Handle really long locations in the event list so it does not break',
+        'date': '2018-10-24 05:49:00',
+        'id': '8',
+      },
     ];
 
     final theme = ThemeData.dark().copyWith(
