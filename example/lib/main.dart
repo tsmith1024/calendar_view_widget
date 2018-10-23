@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:flutter/material.dart';
 import 'package:calendar_view_widget/calendar_view_widget.dart';
+import 'package:flutter/material.dart';
 
 void main() => runApp(new MyApp());
 
@@ -48,7 +48,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  StreamController<List<Map<String, String>>> eventsController = new StreamController();
+  StreamController<List<Map<String, String>>> eventsController =
+      new StreamController();
 
   void _incrementCounter() {
     setState(() {
@@ -71,38 +72,50 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     const eventList = [
+      // null location, so location will not be displayed
+      // but event will be visible in calendar
       {
-        'name': 'Event Name',
-        'location': 'Grand Ballroom',
+        'name': 'Event (null location)',
+        'location': null,
         'date': '2018-09-27 13:27:00',
         'id': '1',
       },
+      // null name, so name will not be displayed
+      // but event will be visible in calendar
       {
-        'name': 'Event Name2',
+        'name': null,
         'location': 'Suite 501',
         'date': '2018-09-21 14:35:00',
         'id': '2',
       },
+      // null date, so event below will not be visible in calendar
       {
-        'name': 'Event Name3',
+        'name': 'Event null date',
         'location': '1200 Park Avenue',
-        'date': '2018-09-22 05:49:00',
+        'date': null,
         'id': '3',
       },
+      // null id, so event below will not be visible in calendar
       {
-        'name': 'Event Name',
+        'name': 'Event null id',
+        'location': 'Grand Ballroom',
+        'date': '2018-08-27 13:27:00',
+        'id': null,
+      },
+      {
+        'name': 'Event 4',
         'location': 'Grand Ballroom',
         'date': '2018-08-27 13:27:00',
         'id': '4',
       },
       {
-        'name': 'Event Name2',
+        'name': 'Event 5',
         'location': 'Suite 501',
         'date': '2018-10-21 14:35:00',
         'id': '5',
       },
       {
-        'name': 'Event Name3',
+        'name': 'Event 6',
         'location': '1200 Park Avenue',
         'date': '2018-08-22 05:49:00',
         'id': '6',
@@ -116,40 +129,40 @@ class _MyHomePageState extends State<MyHomePage> {
       backgroundColor: Colors.lightBlue,
       dividerColor: Colors.blueGrey,
       textTheme: ThemeData.dark().textTheme.copyWith(
-        display1: TextStyle(
-          fontSize: 21.0
-        ),
-        subhead: TextStyle(
-          fontSize: 14.0,
-          color: Colors.blueGrey
-        ),
-        headline: TextStyle(
-          fontSize: 18.0,
-          color: Colors.blueGrey,
-          fontWeight: FontWeight.bold,
-        ),
-        title: TextStyle(
-          fontSize: 14.0,
-          color: Colors.blueGrey,
-          fontWeight: FontWeight.bold,
-        )
-      ),
+            display1: TextStyle(
+              fontSize: 21.0,
+            ),
+            subhead: TextStyle(
+              fontSize: 14.0,
+              color: Colors.blueGrey,
+            ),
+            headline: TextStyle(
+              fontSize: 18.0,
+              color: Colors.blueGrey,
+              fontWeight: FontWeight.bold,
+            ),
+            title: TextStyle(
+              fontSize: 14.0,
+              color: Colors.blueGrey,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
       accentTextTheme: ThemeData.dark().accentTextTheme.copyWith(
-        body1: TextStyle(
-          fontSize: 14.0,
-          color: Colors.black,
-        ),
-        title: TextStyle(
-          fontSize: 21.0,
-          color: Colors.black,
-          fontWeight: FontWeight.bold
-        ),
-        display1: TextStyle(
-          fontSize: 21.0,
-          color: Colors.black,
-          fontWeight: FontWeight.bold,
-        )
-      )
+            body1: TextStyle(
+              fontSize: 14.0,
+              color: Colors.black,
+            ),
+            title: TextStyle(
+              fontSize: 21.0,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+            display1: TextStyle(
+              fontSize: 21.0,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
     );
 
     void onEventTapped(String id) {

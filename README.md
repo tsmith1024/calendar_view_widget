@@ -57,6 +57,8 @@ Structure:
 
 Events are simply Maps with String keys and String values (`Map<String, String>`).
 
+Null values in the `titleField` or `detailField` will be left empty in the event list. Events with null or empty values (as determined by `String.isEmpty()`) in the `datefield` will be hidden from the calendar.
+
 ### Parameter Notes
 The expectation is that there are at least 3 fields to use for the display: `titleField`, `detailField`, and `dateField`.
 
