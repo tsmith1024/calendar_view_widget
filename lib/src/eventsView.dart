@@ -23,23 +23,27 @@ class EventsView extends StatelessWidget {
   final String dateField;
   final ThemeData theme;
 
-  Widget dateBadge(day) => Container(
-        margin: EdgeInsets.all(8.0),
-        padding: EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: theme.accentColor,
-        ),
-        child: Column(
-          children: <Widget>[
-            Text(
-              day.toString(),
-              textAlign: TextAlign.center,
-              style: theme.accentTextTheme.title,
-            ),
-          ],
+  Widget dateBadge(day) => ConstrainedBox(
+        constraints: new BoxConstraints(minWidth: 75.0),
+        child: new Container(
+          margin: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: theme.accentColor,
+          ),
+          child: Column(
+            children: <Widget>[
+              Text(
+                day.toString(),
+                textAlign: TextAlign.center,
+                style: theme.accentTextTheme.title,
+              ),
+            ],
+          ),
         ),
       );
+
 
   String timeString(event) {
     final date = DateTime.parse(event[dateField]);
