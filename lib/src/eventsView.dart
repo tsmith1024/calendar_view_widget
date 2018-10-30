@@ -44,9 +44,8 @@ class EventsView extends StatelessWidget {
         ),
       );
 
-
   String timeString(event) {
-    final date = DateTime.parse(event[dateField]);
+    final date = DateTime.parse(event[dateField]).toLocal();
     return DateFormat.jm().format(date);
   }
 
