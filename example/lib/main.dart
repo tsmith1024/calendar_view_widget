@@ -111,7 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
       {
         'name': 'Event 5',
         'location': 'Suite 501',
-        'date': '2018-10-21 14:35:00',
+        'date': '2018-10-21 14:35:00z',
         'id': '5',
       },
       {
@@ -131,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
         'name': 'Event 8',
         'location':
             'Handle really long locations in the event list so it does not break',
-        'date': '2018-10-24 05:49:00',
+        'date': '2018-10-24 05:49:00z',
         'id': '8',
       },
     ];
