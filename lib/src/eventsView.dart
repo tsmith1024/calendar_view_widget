@@ -49,9 +49,9 @@ class EventsView extends StatelessWidget {
     return DateFormat.jm().format(date);
   }
 
-  Widget eventRow(int day, Map<String, String> event) => GestureDetector(
+  Widget eventRow(int day, Map<String, String> event) => InkWell(
         onTap: () => onEventTapped(event),
-        child: Container(
+        child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
             children: <Widget>[
