@@ -45,7 +45,7 @@ class EventsView extends StatelessWidget {
       );
 
   String timeString(event) {
-    final date = DateTime.parse(event[dateField]).toUtc();
+    final date = DateTime.parse(event[dateField]).add(DateTime.now().timeZoneOffset);
     return DateFormat.jm().format(date);
   }
 
