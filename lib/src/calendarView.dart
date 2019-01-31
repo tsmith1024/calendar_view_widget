@@ -80,7 +80,7 @@ class _CalendarState extends State<CalendarView> {
 
     Map<int, Map<int, Map<int, List>>> structuredEvents = {};
     for (var event in sortedEvents) {
-      var date = DateTime.parse(event[widget.dateField]).toLocal().add(DateTime.now().timeZoneOffset);
+      var date = DateTime.parse(event[widget.dateField]).add(DateTime.now().timeZoneOffset);
       // guard null date
       if (date == null) {
         continue;
